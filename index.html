@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<div id="app">
+    <p v-bind:title="tooltip">{{title}}</p>
+    <user-list v-bind:users="list" v-bind:defaultAvatar="defaultAvatar"></user-list>
+
+</div>
+
+
+<template id="userlist">
+    <table>
+        <tr v-for="user in users" v-bind:key="user.id">
+            <td>
+                {{user.id}}
+            </td>
+            <td>
+                {{user.name}}
+            </td>
+            <td>
+                {{user.surName}}
+            </td>
+            <td>
+                {{user.middleName}}
+            </td>
+            <td v-if="user.avatarImage">
+                <img width="150" v-bind:src="user.avatarImage" alt="">
+            </td>
+            <td v-else>
+                <img width="150" v-bind:src="defaultAvatar" alt="">
+            </td>
+        </tr>
+    </table>
+</template>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+<script>
+
+
+    var userList = {
+        template: "#userlist",
+        props: {
+            users: {
+                type: Array,
+                required: true
+            }
+        },
+        computed: {
+            total: function () {
+                return this.users.length
+            }
+        }
+    }
+
+    window.wm = new Vue ({
+        el: "#app",
+        components: {
+          "user-list": userList
+        },
+        data: function () {
+            return {
+                title: "Тестовые данные",
+                tooltip: "Подсказка",
+                list: [],
+                defaultAvatar: ""
+            }
+        },
+
+        computed: {},
+        mounted: function () {
+            console.log("Mounted");
+            this.defaultAvatar = "https://minervastrategies.com/wp-content/uploads/2016/03/default-avatar.jpg",
+            this.list = [
+                {
+                    id: 1, name: "Petya", surName: "Bobkin", middleName: "Tushkanchikovich", avatarImage: "https://avatarfiles.alphacoders.com/260/thumb-260.jpg"
+                },
+                {
+                    id: 2, name: "Vasya", surName: "Pukin", middleName: "Boberkovich", avatarImage: "https://avatarfiles.alphacoders.com/260/thumb-260.jpg"
+                },
+                {
+                    id: 3, name: "Ivan", surName: "Dobrunya", middleName: "Nikitovich", avatarImage: "https://avatarfiles.alphacoders.com/260/thumb-260.jpg"
+                },
+                {
+                    id: 4, name: "Ivan", surName: "Dobrunya", middleName: "Nikitovich"
+                }
+            ]
+        },
+        methods: {}
+    })
+</script>
+
+</body>
+</html>
